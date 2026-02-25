@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="borderClr">#479edd</color>
+    <color name="cardBgClr">#fbfdfc</color>
+    <color name="appBgClr">#f3f4f5</color>
+    <color name="blueBtnClr">#1989db</color>
+    <color name="spinnerTxtClr">#2574bd</color>
+    <color name="personalCatClr">#59b655</color>
+    <color name="hintClr">#9E9E9E</color>
+    <color name="workCatClr">#1583d5</color>
+    <color name="studyCatClr">#e5504a</color>
+    <color name="shareBtnClr">#949fa8</color>
+    <color name="footerBgClr">#fcfefd</color>
+    <color name="categoryStrokeClr">#cfd7da</color>
+</resources>

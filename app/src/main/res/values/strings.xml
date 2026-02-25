@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">QuickNote</string>
+    <string name="app_header">Quick-Note &amp; Share</string>
+    <string name="note_hint">Type your note here...</string>
+    <string name="save_note">Save Note</string>
+    <string name="category_spinner">Category |</string>
+    <string name="activity_title">Activity This Session:</string>
+    <string name="preview_btn_txt">Preview</string>
+    <string name="share_all_btn_txt">Share All</string>
+
+
+    <string-array name="category_items">
+        <item>Work</item>
+        <item>Personal</item>
+        <item>Study</item>
+    </string-array>
+
+</resources>
