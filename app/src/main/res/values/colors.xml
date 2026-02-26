@@ -15,4 +15,8 @@
     <color name="shareBtnClr">#949fa8</color>
     <color name="footerBgClr">#fcfefd</color>
     <color name="categoryStrokeClr">#cfd7da</color>
+    <color name="previewScreenBgClr">#e9eaee</color>
+    <color name="notePreviewBgClr">#fefefe</color>
+    <color name="taskDetailBgClr">#f4f5f4</color>
+    <color name="taskDetailTxtClr">#272827</color>
 </resources>

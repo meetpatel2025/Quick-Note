@@ -7,6 +7,7 @@
     <string name="activity_title">Activity This Session:</string>
     <string name="preview_btn_txt">Preview</string>
     <string name="share_all_btn_txt">Share All</string>
+    <string name="task_error">Please enter a task</string>
 
 
     <string-array name="category_items">
