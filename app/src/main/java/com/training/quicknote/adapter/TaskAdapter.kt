@@ -33,7 +33,7 @@ class TaskAdapter(val taskList: List<Task>,
         var categoryString: String = holder.category.text.toString()
 
         holder.taskDescription.setText(taskList[position].description)
-        holder.category.setText(taskList[position].category)
+        holder.category.text = "${taskList[position].category}:"
 
 //        if (holder.category != null && currentTask.category.equals(Category.PERSONAL)) {
 //            holder.catColor.setBackgroundColor(
@@ -49,7 +49,7 @@ class TaskAdapter(val taskList: List<Task>,
 //            )
 //        }
 
-        val catColor = when (currentTask.category) {
+        val categoryColor = when (currentTask.category) {
             Category.PERSONAL.toString() -> R.color.personalCatClr
             Category.WORK.toString() -> R.color.workCatClr
             Category.STUDY.toString() -> R.color.studyCatClr
@@ -58,8 +58,9 @@ class TaskAdapter(val taskList: List<Task>,
             }
         }
 
-        val color = androidx.core.content.ContextCompat.getColor(holder.itemView.context, catColor)
+        val color = androidx.core.content.ContextCompat.getColor(holder.itemView.context, categoryColor)
         holder.catColor.setBackgroundColor(color)
+//        holder.category.setTextColor(color)
 
         holder.itemView.setOnClickListener {
             onItemClick(currentTask)

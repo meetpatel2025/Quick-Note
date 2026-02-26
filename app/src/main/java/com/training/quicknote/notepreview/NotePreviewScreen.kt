@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.training.quicknote.R
+import com.training.quicknote.util.Category
 
 @Composable
 fun NoteDetail(
@@ -41,6 +42,12 @@ fun NoteDetail(
     val descriptionText = colorResource(id = R.color.taskDetailTxtClr)
     val taskTitleColor = colorResource(id = R.color.black)
 
+    val categoryColor = when (taskTitle) {
+        Category.PERSONAL.toString() -> colorResource(id = R.color.personalCatClr)
+        Category.WORK.toString() -> colorResource(id = R.color.workCatClr)
+        Category.STUDY.toString() -> colorResource(id = R.color.studyCatClr)
+        else -> colorResource(id = R.color.personalCatClr)
+    }
 
     Column(
         modifier = Modifier
@@ -49,7 +56,7 @@ fun NoteDetail(
     ) {
         NotePreviewHeader(
             background = previewTitleBgColor,
-            onBackClick = onBackClick
+            onBackClick = onBackClick,
         )
 
 
@@ -77,7 +84,7 @@ fun NoteDetail(
                             modifier = Modifier
                                 .size(26.dp)
                                 .clip(RoundedCornerShape(6.dp))
-                                .background(shareBtnColor)
+                                .background(categoryColor)
                         )
                         Spacer(Modifier.width(12.dp))
                         Text(
@@ -91,7 +98,7 @@ fun NoteDetail(
                     Spacer(Modifier.height(16.dp))
 
                     Text(
-                        text = "taskDescription",
+                        text = "$taskDescription",
                         color = descriptionText,
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontSize = 18.sp,
@@ -102,7 +109,6 @@ fun NoteDetail(
             }
 
             Spacer(Modifier.height(24.dp))
-
 
             Button(
                 onClick = onShareClick,
@@ -130,8 +136,6 @@ fun NoteDetail(
                     fontWeight = FontWeight.SemiBold
                 )
             }
-
-
         }
     }
 }

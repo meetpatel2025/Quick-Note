@@ -1,11 +1,13 @@
 package com.training.quicknote.util
 
-enum class Category(displayName:String) {
-    STUDY("Study"),
-    WORK("Work"),
-    PERSONAL("Personal");
+import com.training.quicknote.R
 
-//    override fun toString(): String {
-//        return displayName
-//    }
+enum class Category(val displayName: String, val Categorycolor: Int) {
+    WORK("Work", R.color.workCatClr),
+    PERSONAL("Personal", R.color.personalCatClr),
+    STUDY("Study", R.color.studyCatClr);
+
+    override fun toString(): String {
+        return displayName
+    }
 }

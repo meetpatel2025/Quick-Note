@@ -68,7 +68,6 @@
                 android:id="@+id/categoryDropDown"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:entries="@array/category_items"
                 android:popupBackground="@drawable/dropdown_bg"
                 android:spinnerMode="dropdown"
                 app:layout_constraintEnd_toStartOf="@+id/saveNoteBtn"
