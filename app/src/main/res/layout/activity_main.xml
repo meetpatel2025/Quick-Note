@@ -39,11 +39,12 @@
 
     <LinearLayout
         android:id="@+id/spinnerBtnContainer"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="14dp"
         android:layout_marginTop="34dp"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteInput">
@@ -69,11 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:popupBackground="@drawable/dropdown_bg"
-                android:spinnerMode="dropdown"
-                app:layout_constraintEnd_toStartOf="@+id/saveNoteBtn"
-                app:layout_constraintHorizontal_bias="0.817"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/noteHint" />
+                android:spinnerMode="dropdown"/>
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -87,12 +84,11 @@
             android:paddingVertical="10dp"
             android:layout_marginStart="14dp"
             app:cornerRadius="14dp"
-            android:layout_weight="1"
             android:text="@string/save_note"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/noteHint"
-        />
+            />
 
     </LinearLayout>
 
@@ -122,7 +118,6 @@
         android:id="@+id/footer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:background="@color/footerBgClr"
         android:gravity="center_vertical"
         android:padding="14dp"
@@ -174,4 +169,3 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

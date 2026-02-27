@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+//    alias(libs.plugins.kotlin.parcelize)
+//    id("kotlin-parcelize")
 }
 
 android {
@@ -61,5 +63,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     implementation(libs.compose.material.icons.extended)
+        implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+        implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
 }

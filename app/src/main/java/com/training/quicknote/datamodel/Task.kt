@@ -1,3 +1,5 @@
 package com.training.quicknote.datamodel
 
-data class Task(val description: String, val category:String)
+import com.training.quicknote.util.Category
+
+data class Task(val description: String, val category: Category)

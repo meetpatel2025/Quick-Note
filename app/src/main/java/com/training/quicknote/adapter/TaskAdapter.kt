@@ -50,9 +50,9 @@ class TaskAdapter(val taskList: List<Task>,
 //        }
 
         val categoryColor = when (currentTask.category) {
-            Category.PERSONAL.toString() -> R.color.personalCatClr
-            Category.WORK.toString() -> R.color.workCatClr
-            Category.STUDY.toString() -> R.color.studyCatClr
+            Category.PERSONAL -> R.color.personalCatClr
+            Category.WORK -> R.color.workCatClr
+            Category.STUDY -> R.color.studyCatClr
             else -> {
                 R.color.personalCatClr
             }
