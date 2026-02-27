@@ -10,6 +10,7 @@ class TaskDetail : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // handles nullable
         val description = intent.getStringExtra("task_description") ?: ""
         val category = intent.getStringExtra("task_category") ?: ""
 
@@ -25,6 +26,7 @@ class TaskDetail : ComponentActivity() {
         }
 
     }
+        // share note -> implicit intent
          private fun shareNote(category: String, description: String) {
 
             val shareText = """

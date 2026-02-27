@@ -9,8 +9,10 @@ import com.training.quicknote.R
 import com.training.quicknote.datamodel.Task
 import com.training.quicknote.util.Category
 
-class TaskAdapter(val taskList: List<Task>,
-                  val onItemClick: (Task) -> Unit) :
+class TaskAdapter(
+    val taskList: List<Task>,
+    val onItemClick: (Task) -> Unit
+) :
     RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -28,27 +30,27 @@ class TaskAdapter(val taskList: List<Task>,
         position: Int
     ) {
         val currentTask = taskList[position]
-//        holder.category.text = "${currentTask.category}:"
 
         var categoryString: String = holder.category.text.toString()
 
         holder.taskDescription.setText(taskList[position].description)
         holder.category.text = "${taskList[position].category}:"
 
-//        if (holder.category != null && currentTask.category.equals(Category.PERSONAL)) {
-//            holder.catColor.setBackgroundColor(
-//                holder.itemView.context.getColor(R.color.personalCatClr)
-//            )
-//        } else if (holder.category != null && currentTask.category.equals(Category.WORK)) {
-//            holder.catColor.setBackgroundColor(
-//                holder.itemView.context.getColor(R.color.workCatClr)
-//            )
-//        } else if (holder.category != null && currentTask.category.equals(Category.STUDY)) {
-//            holder.catColor.setBackgroundColor(
-//                holder.itemView.context.getColor(R.color.studyCatClr)
-//            )
-//        }
+       /* if (holder.category != null && currentTask.category.equals(Category.PERSONAL)) {
+            holder.catColor.setBackgroundColor(
+                holder.itemView.context.getColor(R.color.personalCatClr)
+            )
+        } else if (holder.category != null && currentTask.category.equals(Category.WORK)) {
+            holder.catColor.setBackgroundColor(
+                holder.itemView.context.getColor(R.color.workCatClr)
+            )
+        } else if (holder.category != null && currentTask.category.equals(Category.STUDY)) {
+            holder.catColor.setBackgroundColor(
+                holder.itemView.context.getColor(R.color.studyCatClr)
+            )
+        }*/
 
+        // convert color box according to current category
         val categoryColor = when (currentTask.category) {
             Category.PERSONAL -> R.color.personalCatClr
             Category.WORK -> R.color.workCatClr
@@ -58,7 +60,8 @@ class TaskAdapter(val taskList: List<Task>,
             }
         }
 
-        val color = androidx.core.content.ContextCompat.getColor(holder.itemView.context, categoryColor)
+        val color =
+            androidx.core.content.ContextCompat.getColor(holder.itemView.context, categoryColor)
         holder.catColor.setBackgroundColor(color)
 //        holder.category.setTextColor(color)
 

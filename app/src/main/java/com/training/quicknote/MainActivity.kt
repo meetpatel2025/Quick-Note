@@ -6,7 +6,9 @@ import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var taskAdapter: TaskAdapter
     val taskList = ArrayList<Task>()
-    var selectedCategory = Category.PERSONAL
+    var selectedCategory = Category.WORK
     val categories = Category.values().toList()
 
     private var pendingTaskDescription: String? = null
@@ -155,7 +157,7 @@ class MainActivity : AppCompatActivity() {
                 TaskDetail::class.java
             )
             taskDetails.putExtra("task_description", clickedTask.description)
-            taskDetails.putExtra("task_category", clickedTask.category)
+            taskDetails.putExtra("task_category", clickedTask.category.displayName)
             startActivity(taskDetails)
         }
         recyclerView.adapter = taskAdapter
@@ -188,24 +190,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(intent, "Share notes via"))
         }
 
-//         val requestPermissionLauncher =
-//            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-//                if (isGranted) {
-//                    saveNoteAndNotify()
-//                } else {
-//                    Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-
-//        if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
-//            == PackageManager.PERMISSION_GRANTED
-//        ) {
-//            saveNoteAndNotify()
-//        } else {
-//            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-//        }
-
-
         // preview button -> opens last taks
         val previewButton = findViewById<Button>(R.id.previewBtn)
 
@@ -225,10 +209,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                // Permission granted, add pending note
                 pendingTaskDescription?.let {
                     saveNoteAndNotify(it)
                 }
@@ -252,6 +237,7 @@ class MainActivity : AppCompatActivity() {
         manager.createNotificationChannel(channel)
     }
 
+    // handles post notification
     private fun saveNoteAndNotify(taskDescription: String) {
         val task = Task(taskDescription, selectedCategory)
 //        taskList.add(task)
@@ -268,7 +254,46 @@ class MainActivity : AppCompatActivity() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
-        NotificationManagerCompat.from(this).notify(1001, notification)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                NotificationManagerCompat.from(this).notify(1001, notification)
+            }
+        } else {
+            NotificationManagerCompat.from(this).notify(1001, notification)
+        }
+    }
+
+    // prints the logs of lifecycle
+    override fun onStart() {
+        super.onStart()
+        Log.d("Lifecycle State", "--------- onStart() ---------")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("Lifecycle State", "--------- onResume() ---------")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("Lifecycle State", "--------- onPause() ---------")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("Lifecycle State", "--------- onStop() ---------")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("Lifecycle State", "--------- onRestart() ---------")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("Lifecycle State", "--------- onDestroy() ---------")
     }
 
 }

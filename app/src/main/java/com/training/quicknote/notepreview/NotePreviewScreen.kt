@@ -35,6 +35,7 @@ fun NoteDetail(
     onShareClick: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
+    // get colors from the color.xml
     val previewScreenBg = colorResource(id = R.color.previewScreenBgClr)
     val cardBg = colorResource(id = R.color.taskDetailBgClr)
     val previewTitleBgColor = colorResource(id = R.color.notePreviewBgClr)
@@ -42,6 +43,7 @@ fun NoteDetail(
     val descriptionText = colorResource(id = R.color.taskDetailTxtClr)
     val taskTitleColor = colorResource(id = R.color.black)
 
+    // set color according to selected category
     val categoryColor = when (taskTitle) {
         Category.PERSONAL.toString() -> colorResource(id = R.color.personalCatClr)
         Category.WORK.toString() -> colorResource(id = R.color.workCatClr)
@@ -49,6 +51,12 @@ fun NoteDetail(
         else -> colorResource(id = R.color.personalCatClr)
     }
 
+//    val category = Category.values().find {
+//        it.displayName == taskTitle
+//    } ?: Category.PERSONAL
+//    val categoryColor = colorResource(id = category.Categorycolor)
+
+    // preview title
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,6 +68,7 @@ fun NoteDetail(
         )
 
 
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -67,6 +76,7 @@ fun NoteDetail(
                 .padding(horizontal = 14.dp, vertical = 30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // card layout -> category & task decreption
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,6 +120,7 @@ fun NoteDetail(
 
             Spacer(Modifier.height(24.dp))
 
+            // share button with icon
             Button(
                 onClick = onShareClick,
                 modifier = Modifier
@@ -140,6 +151,7 @@ fun NoteDetail(
     }
 }
 
+// preview screen header -> back icon & title
 @Composable
 fun NotePreviewHeader(
     background: Color,

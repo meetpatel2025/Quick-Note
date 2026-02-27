@@ -8,6 +8,7 @@
     android:background="@color/appBgClr"
     tools:context=".MainActivity">
 
+    <!--    app title-->
     <TextView
         android:id="@+id/appHeader"
         android:layout_width="wrap_content"
@@ -21,6 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--    input field-->
     <EditText
         android:id="@+id/noteInput"
         android:layout_width="match_parent"
@@ -37,6 +39,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appHeader" />
 
+    <!--    spinner container -> spinner & save button-->
     <LinearLayout
         android:id="@+id/spinnerBtnContainer"
         android:layout_width="match_parent"
@@ -70,28 +73,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:popupBackground="@drawable/dropdown_bg"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveNoteBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            app:backgroundTint="@color/blueBtnClr"
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
-            android:layout_marginStart="14dp"
-            app:cornerRadius="14dp"
             android:text="@string/save_note"
             android:textSize="18sp"
+            app:backgroundTint="@color/blueBtnClr"
+            app:cornerRadius="14dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/noteHint"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/noteHint" />
 
     </LinearLayout>
 
+    <!--    activity header & recyclerview-->
     <TextView
         android:id="@+id/activityHeader"
         android:layout_width="wrap_content"
@@ -110,10 +113,11 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="14dp"
         android:layout_marginTop="44dp"
+        app:layout_constraintBottom_toTopOf="@id/footer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activityHeader"
-        app:layout_constraintBottom_toTopOf="@id/footer" />
+        app:layout_constraintTop_toBottomOf="@id/activityHeader" />
 
+    <!--    footer -> oreview & shareAll button-->
     <LinearLayout
         android:id="@+id/footer"
         android:layout_width="0dp"
@@ -134,12 +138,12 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
             android:text="@string/preview_btn_txt"
+            android:textSize="18sp"
             app:backgroundTint="@color/blueBtnClr"
             app:cornerRadius="14dp"
             app:icon="@drawable/wb_incandescent_24px"
             app:iconGravity="textStart"
             app:iconPadding="8dp"
-            android:textSize="18sp"
             app:iconSize="26dp"
             app:iconTint="@android:color/white" />
 
@@ -157,9 +161,9 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
             android:text="@string/share_all_btn_txt"
+            android:textSize="18sp"
             app:backgroundTint="@color/shareBtnClr"
             app:cornerRadius="14dp"
-            android:textSize="18sp"
             app:icon="@drawable/share_24px"
             app:iconGravity="textStart"
             app:iconPadding="8dp"

@@ -8,6 +8,7 @@
     android:background="@color/appBgClr"
     tools:context=".MainActivity">
 
+    <!--    app title-->
     <TextView
         android:id="@+id/appHeader"
         android:layout_width="wrap_content"
@@ -22,6 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--    left panel -> input field, dropdown and save button-->
     <LinearLayout
         android:id="@+id/leftPanel"
         android:layout_width="0dp"
@@ -107,14 +109,15 @@
 
     </LinearLayout>
 
+    <!--    righ panel -> activity header & recycler view-->
     <TextView
         android:id="@+id/activityHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="@string/activity_title"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:layout_marginTop="12dp"
         app:layout_constraintBottom_toTopOf="@+id/noteList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.095"
@@ -133,6 +136,7 @@
         app:layout_constraintTop_toBottomOf="@id/activityHeader"
         app:layout_constraintVertical_bias="0.0" />
 
+    <!--    footer -> oreview & shareAll button-->
     <LinearLayout
         android:id="@+id/footer"
         android:layout_width="0dp"
