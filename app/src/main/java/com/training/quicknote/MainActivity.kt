@@ -3,6 +3,7 @@ package com.training.quicknote
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Typeface
@@ -11,6 +12,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -20,11 +22,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +36,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.training.quicknote.viewmodel.TaskViewModel
-import kotlinx.coroutines.flow.observeOn
 
 class MainActivity : AppCompatActivity() {
 
@@ -108,7 +107,6 @@ class MainActivity : AppCompatActivity() {
 
         // set the selected dropdown value
         dropDown.adapter = dropDownAdapter
-        dropDown.setSelection(categories.indexOf(selectedCategory))
         dropDown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -123,6 +121,7 @@ class MainActivity : AppCompatActivity() {
                 selectedCategory = Category.PERSONAL
             }
         }
+        dropDown.setSelection(categories.indexOf(selectedCategory))
 
 
         // save click handle -> show the recycler view
@@ -133,21 +132,29 @@ class MainActivity : AppCompatActivity() {
         saveBtn.setOnClickListener {
 
             val taskDescription = taskInput.text.toString()
+
             if (taskDescription.isEmpty()) {
                 Toast.makeText(this, R.string.task_error, Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 
-            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
-                == PackageManager.PERMISSION_GRANTED
-            ) {
-                saveNoteAndNotify(taskDescription)
-            } else {
-                // Save the task description temporarily and request permission
-                pendingTaskDescription = taskDescription
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
+            pendingTaskDescription = taskDescription
 
+            hideKeyboard()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+                if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                    == PackageManager.PERMISSION_GRANTED
+                ) {
+                    saveNoteAndNotify(taskDescription)
+                } else {
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+
+            } else {
+                // No runtime permission exists here
+                saveNoteAndNotify(taskDescription)
+            }
         }
 
         // sends the data to recycler view
@@ -170,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         shareBtn.setOnClickListener {
 
             if (viewModel.taskList.isEmpty()) {
-                Toast.makeText(this, "No tasks to share", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "No notes to share", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 
@@ -203,16 +210,16 @@ class MainActivity : AppCompatActivity() {
 
             val lastTaskDetail = Intent(this, TaskDetail::class.java)
             lastTaskDetail.putExtra("task_description", lastTast.description)
-            lastTaskDetail.putExtra("task_category", lastTast.category)
+            lastTaskDetail.putExtra("task_category", lastTast.category.displayName)
 
             startActivity(lastTaskDetail)
         }
     }
 
 
-
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+
             if (isGranted) {
                 pendingTaskDescription?.let {
                     saveNoteAndNotify(it)
@@ -220,18 +227,19 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "Notification permission denied. Note not saved.",
+                    "Permission denied. Note not saved.",
                     Toast.LENGTH_LONG
                 ).show()
             }
-            pendingTaskDescription = null // reset
+
+            pendingTaskDescription = null
         }
 
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
             "note_channel",
             "Note Notifications",
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_HIGH
         )
         val manager = getSystemService(NotificationManager::class.java)
         manager.createNotificationChannel(channel)
@@ -251,7 +259,7 @@ class MainActivity : AppCompatActivity() {
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle("Quick Note")
             .setContentText("Note Saved")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -262,6 +270,45 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             NotificationManagerCompat.from(this).notify(1001, notification)
+        }
+    }
+
+    private fun saveNote(taskDescription: String) {
+
+        val task = Task(taskDescription, selectedCategory)
+        viewModel.taskList.add(task)
+        taskAdapter.notifyItemInserted(viewModel.taskList.size - 1)
+
+        val taskInput = findViewById<EditText>(R.id.noteInput)
+        taskInput.text.clear()
+    }
+
+    private fun showNotification() {
+
+        val notification = NotificationCompat.Builder(this, "note_channel")
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setContentTitle("Quick Note")
+            .setContentText("Successfully note added")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .build()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                NotificationManagerCompat.from(this).notify(1001, notification)
+            }
+        } else {
+            NotificationManagerCompat.from(this).notify(1001, notification)
+        }
+    }
+
+    // hideKeyboard on lower API versions
+    private fun hideKeyboard() {
+        val systemService = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val currentView = currentFocus
+        currentView?.let {
+            systemService.hideSoftInputFromWindow(it.windowToken, 0)
         }
     }
 
